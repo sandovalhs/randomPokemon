@@ -28,7 +28,7 @@ The following STRETCH features are implemented:
 
 Here's a video / GIF that demos all of the app's implemented features:
 
-<img src= "https://i.imgur.com/9UT47WR.gif"/>
+<img src='https://i.imgur.com/9UT47WR.gif' title='Video Demo' width='' alt='Video Demo' />
 GIF created with Screentogif
 
 ## Notes
