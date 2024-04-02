@@ -39,13 +39,13 @@ class MainActivity : AppCompatActivity() {
         val randomOffset = (0..898).random()
         val url = "https://pokeapi.co/api/v2/pokemon?limit=20&offset=$randomOffset"
         client[url, object : JsonHttpResponseHandler() {
-            override fun onSuccess(statusCode: Int, headers: Headers, json: JsonHttpResponseHandler.JSON
+            override fun onSuccess(statusCode: Int, headers: Headers, json: JsonHttpResponseHandler.JSON?
             ) {
                 if (json != null) {
                     Log.d("PokemonAPI", "JSON Response: $json")
                     // Check if "results" array exists in the JSON response
                     if (json.jsonObject.has("results")) {
-                        val resultsArray = json.jsonObject.getJSONArray("results")
+                        val resultsArray = json.jsonObject.optJSONArray("results")
                         if (resultsArray != null) {
                             Log.d("PokemonAPI", "Results Array: $resultsArray")
                             processPokemonData(resultsArray)
@@ -79,20 +79,17 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    private fun processPokemonData(jsonArray: JSONArray?) {
-        jsonArray?.let {
-            pokemonList.clear()
-            // Process the JSON array containing Pokémon data here
-            for (i in 0 until it.length()) {
-                val pokemonObject = it.getJSONObject(i)
-                val name = pokemonObject.getString("name")
-                val url = pokemonObject.getString("url")
+    private fun processPokemonData(jsonArray: JSONArray) {
+        pokemonList.clear()
+        // Process the JSON array containing Pokémon data here
+        for (i in 0 until jsonArray.length()) {
+            val pokemonObject = jsonArray.getJSONObject(i)
+            val name = pokemonObject.getString("name")
+            val url = pokemonObject.getString("url")
 
-                // Fetch additional details using the URL
-                fetchPokemonDetails(name, url)
-            }
-        } ?: Log.e("PokemonAPI", "JSON Array is null")
-
+            // Fetch additional details using the URL
+            fetchPokemonDetails(name, url)
+        }
     }
 
     private fun fetchPokemonDetails(name: String, url: String) {
@@ -104,7 +101,7 @@ class MainActivity : AppCompatActivity() {
                     val spritesObject = json.jsonObject.getJSONObject("sprites")
                     val imageUrl = spritesObject.getString("front_default")
 
-                    // Check if "types" array exists in the JSON response
+                    // Check if "types" field exists in the JSON response
                     if (json.jsonObject.has("types")) {
                         val typesArray = json.jsonObject.getJSONArray("types")
                         for (j in 0 until typesArray.length()) {
@@ -112,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                             types.add(typeObject.getString("name"))
                         }
                     } else {
-                        Log.e("PokemonAPI", "Types array not found for Pokemon: $name")
+                        Log.e("PokemonAPI", "Types field not found for Pokemon: $name")
                     }
 
                     // Create Pokemon object with fetched details
