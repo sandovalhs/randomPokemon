@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         rvPokemon = findViewById(R.id.pokemon_list)
         pokemonList = mutableListOf()
         pokemonAPI()
+
     }
 
     data class Pokemon(

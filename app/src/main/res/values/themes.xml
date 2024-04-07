@@ -2,8 +2,13 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.APIProject" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:fontFamily">@font/press_start_2p</item>
     </style>
 
-    <style name="Theme.APIProject" parent="Base.Theme.APIProject" />
+    <style name="Theme.APIProject" parent="Base.Theme.APIProject"/>
+    <style name="allText">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">#FF0000</item>
+        <item name="android:padding">15dp</item>
+    </style>
 </resources>

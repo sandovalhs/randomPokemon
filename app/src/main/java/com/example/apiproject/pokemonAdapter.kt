@@ -5,8 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+
+
 class pokemonAdapter(private val pokemonList: List<MainActivity.Pokemon>) : RecyclerView.Adapter<pokemonAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val pokemonImage: ImageView
