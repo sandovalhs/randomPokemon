@@ -35,4 +35,6 @@ Here's a video / GIF that demos all of the app's implemented features:
 
 <img src='https://i.imgur.com/INpLExz.gif' title='Video Demo' width='' alt='Video Demo' />
 
+gif doesn't work --> https://imgur.com/INpLExz
+
 GIF created with ScreenToGif
