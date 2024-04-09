@@ -3,38 +3,29 @@ package com.example.apiproject
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.Headers
 import org.json.JSONArray
-import java.util.Random
 
 class MainActivity : AppCompatActivity() {
     var name = ""
-    private lateinit var pokemonList : MutableList<Pokemon>
-    private lateinit var rvPokemon : RecyclerView
 
+    private lateinit var rvPokemon : RecyclerView
+    private val adapter = PokemonAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         rvPokemon = findViewById(R.id.pokemon_list)
-        pokemonList = mutableListOf()
+        rvPokemon.adapter = adapter
+        rvPokemon.layoutManager = LinearLayoutManager(this@MainActivity)
+
         pokemonAPI()
 
     }
-
-    data class Pokemon(
-        val name: String,
-        val types: List<String>,
-        val imageUrl: String
-    )
 
     private fun pokemonAPI() {
         val client = AsyncHttpClient()
@@ -52,9 +43,6 @@ class MainActivity : AppCompatActivity() {
                             Log.d("PokemonAPI", "Results Array: $resultsArray")
                             processPokemonData(resultsArray)
                             Log.d("Success", "response successful")
-                            val adapter = pokemonAdapter(pokemonList)
-                            rvPokemon.adapter = adapter
-                            rvPokemon.layoutManager = LinearLayoutManager(this@MainActivity)
                         } else {
                             Log.e("PokemonAPI", "Results Array is null")
                         }
@@ -82,7 +70,6 @@ class MainActivity : AppCompatActivity() {
 
     }
     private fun processPokemonData(jsonArray: JSONArray) {
-        pokemonList.clear()
         // Process the JSON array containing Pokémon data here
         for (i in 0 until jsonArray.length()) {
             val pokemonObject = jsonArray.getJSONObject(i)
@@ -116,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
                     // Create Pokemon object with fetched details
                     val pokemon = Pokemon(name, types, imageUrl)
-                    pokemonList.add(pokemon)
+                    adapter.addPokemon(pokemon)
 
                     // Now you can use the extracted data as needed
                     Log.d("Pokemon", "Name: $name, Types: $types, Image URL: $imageUrl")
